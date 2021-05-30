@@ -23,7 +23,7 @@ namespace DiacriticHolder
                 int keyIntValue = Marshal.ReadInt32(lParam);
                 bool isValidLetter = Enum.IsDefined(typeof(Key), keyIntValue);
 
-                if(isValidLetter)
+                if(isValidLetter && Diacritics.List.ContainsKey((Key)keyIntValue))
                 {
                     switch(windowMessage)
                     {

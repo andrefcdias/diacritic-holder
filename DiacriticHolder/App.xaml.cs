@@ -1,35 +1,16 @@
 ﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using PInvoke;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Runtime.InteropServices;
+using static DiacriticHolder.Types.Win32;
 using static PInvoke.User32;
 
 namespace DiacriticHolder
 {
     public partial class App : Application
     {
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool GetCaretPos(out POINT lpPoint);
-
-        public struct GUITHREADINFO
-        {
-            public int cbSize;
-            public int flags;
-            public IntPtr hwndActive;
-            public IntPtr hwndFocus;
-            public IntPtr hwndCapture;
-            public IntPtr hwndMenuOwner;
-            public IntPtr hwndMoveSize;
-            public IntPtr hwndCaret;
-            public Rectangle rcCaret;
-        }
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetGUIThreadInfo(uint idThread, ref GUITHREADINFO lpgui);
-
         private Dictionary<Key, int> keyCounter = new();
         private Window popup;
 
@@ -57,10 +38,12 @@ namespace DiacriticHolder
                 GetCursorPos(out popupPosition);
             }
 
-            popup = new LetterSelectorWindow(key.ToString());
+            popup = new LetterSelectorWindow(key);
+            popup.ExtendsContentIntoTitleBar = false;
+            popup.SetTitleBar(new Grid());
             popup.Activate();
-            IntPtr popupHandler = GetActiveWindow();
 
+            IntPtr popupHandler = GetActiveWindow();
             SetWindowPos(popupHandler, SpecialWindowHandles.HWND_TOPMOST, popupPosition.x, popupPosition.y, 300, 200, 0);
         }
 
@@ -69,6 +52,7 @@ namespace DiacriticHolder
             popup.Close();
             popup = null;
         }
+
 
         public App()
         {

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using DiacriticHolder.Types;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using static PInvoke.User32;
 using static PInvoke.Kernel32;
+using static PInvoke.User32;
 
 namespace DiacriticHolder
 {
@@ -13,13 +14,6 @@ namespace DiacriticHolder
         internal delegate IntPtr LowLevelHook(int nCode, IntPtr wParam, IntPtr lParam);
         //private WindowsHookDelegate _keyboardHookDelegate;
         private Action<Key> _keyPressedCallback, _keyReleasedCallback;
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool UnhookWindowsHookEx(IntPtr hhk);
-
-        //[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        //internal static extern IntPtr GetModuleHandle(string lpModuleName);
 
         private int KeyboardCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
@@ -38,8 +32,7 @@ namespace DiacriticHolder
                             break;
                         case WindowMessage.WM_KEYUP:
                             _keyReleasedCallback.Invoke((Key)keyIntValue);
-                            //return CallNextHookEx(_keyboardHookHandle.DangerousGetHandle(), nCode, wParam, lParam);
-                            break;
+                            return CallNextHookEx(_keyboardHookHandle.DangerousGetHandle(), nCode, wParam, lParam);
                     }
                 }
             }
@@ -66,7 +59,7 @@ namespace DiacriticHolder
         {
             if (!_keyboardHookHandle.IsClosed && !_keyboardHookHandle.IsInvalid)
             {
-                UnhookWindowsHookEx(_keyboardHookHandle.DangerousGetHandle());
+                Win32.UnhookWindowsHookEx(_keyboardHookHandle.DangerousGetHandle());
             }
         }
     }

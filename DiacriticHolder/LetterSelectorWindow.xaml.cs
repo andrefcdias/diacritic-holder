@@ -1,20 +1,22 @@
-﻿using Microsoft.UI.Xaml;
+﻿using DiacriticHolder.Types;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace DiacriticHolder
 {
     public sealed partial class LetterSelectorWindow : Window
     {
-        public LetterSelectorWindow(string key)
+        public LetterSelectorWindow(Key key)
         {
             InitializeComponent();
 
-            TextBlock letter = new()
+            foreach(string letter in Diacritics.List[key])
             {
-                Text = key
-            };
-
-            LetterPanel.Children.Add(letter);
+                LetterPanel.Children.Add(new Button()
+                {
+                    Content = letter
+                });
+            }
         }
     }
 }

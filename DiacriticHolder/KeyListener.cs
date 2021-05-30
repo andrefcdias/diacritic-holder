@@ -18,7 +18,8 @@ namespace DiacriticHolder
         private int KeyboardCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
             WindowMessage windowMessage = (WindowMessage)wParam.ToInt32();
-            if (nCode >= 0 && (windowMessage == WindowMessage.WM_KEYDOWN || windowMessage == WindowMessage.WM_KEYUP))
+
+            if (nCode >= 0 && (windowMessage == WindowMessage.WM_KEYFIRST || windowMessage == WindowMessage.WM_KEYUP))
             {
                 int keyIntValue = Marshal.ReadInt32(lParam);
                 bool isValidLetter = Enum.IsDefined(typeof(Key), keyIntValue);
@@ -32,12 +33,12 @@ namespace DiacriticHolder
                             break;
                         case WindowMessage.WM_KEYUP:
                             _keyReleasedCallback.Invoke((Key)keyIntValue);
-                            return CallNextHookEx(_keyboardHookHandle.DangerousGetHandle(), nCode, wParam, lParam);
+                            break;
                     }
                 }
+
             }
 
-            //return CallNextHookEx(_keyboardHookHandle.DangerousGetHandle(), nCode, wParam, lParam);
             return 0;
         }
 

@@ -27,6 +27,19 @@ namespace DiacriticHolder
                     {
                         ki = new KEYBDINPUT()
                         {
+                            wScan = ScanCode.BACK,
+                            wVk = VirtualKey.VK_BACK,
+                            time = 0
+                        }
+                    }
+                },
+                new INPUT()
+                {
+                    type = InputType.INPUT_KEYBOARD,
+                    Inputs = new INPUT.InputUnion()
+                    {
+                        ki = new KEYBDINPUT()
+                        {
                             wScan = (ScanCode)value,
                             wVk = 0,
                             time = 0,

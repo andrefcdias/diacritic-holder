@@ -38,7 +38,7 @@ namespace DiacriticHolder
                 GetCursorPos(out popupPosition);
             }
 
-            popup = new LetterSelectorWindow(key);
+            popup = new LetterSelectorWindow(key, () => ClosePopup());
             popup.ExtendsContentIntoTitleBar = false;
             popup.SetTitleBar(new Grid());
             popup.Activate();
@@ -57,6 +57,7 @@ namespace DiacriticHolder
         public App()
         {
             InitializeComponent();
+            new TestWindow().Activate();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
@@ -69,7 +70,7 @@ namespace DiacriticHolder
                 bool hasKey = keyCounter.TryGetValue(key, out int occurrences);
                 keyCounter[key] = hasKey ? ++occurrences : 1;
 
-                //if(occurrences > 3 && popup == null)
+                //if (occurrences > 3 && popup == null)
                 if (popup == null)
                 {
                     OpenPopup(key);
@@ -78,10 +79,10 @@ namespace DiacriticHolder
             {
                 keyCounter[key] = 0;
                 
-                if(popup != null)
-                {
-                    ClosePopup();
-                }
+                //if(popup != null)
+                //{
+                //    ClosePopup();
+                //}
             });
             //}
         }

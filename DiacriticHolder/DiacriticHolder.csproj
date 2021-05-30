@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="LetterSelectorWindow.xaml" />
+    <None Remove="TestWindow.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="TestWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="LetterSelectorWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>

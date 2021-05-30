@@ -52,6 +52,38 @@ namespace DiacriticHolder.Types
             //GUID guidItem; > IE 6
         }
 
+        //[StructLayout(LayoutKind.Sequential)]
+        //internal struct KEYBDINPUT
+        //{
+        //    internal VirtualKeyShort wVk;
+        //    internal ScanCodeShort wScan;
+        //    internal KEYEVENTF dwFlags;
+        //    internal int time;
+        //    internal UIntPtr dwExtraInfo;
+        //}
+
+        //[StructLayout(LayoutKind.Explicit)]
+        //internal struct InputUnion
+        //{
+        //    //[FieldOffset(0)]
+        //    //internal MOUSEINPUT mi;
+        //    [FieldOffset(0)]
+        //    internal KEYBDINPUT ki;
+        //    //[FieldOffset(0)]
+        //    //internal HARDWAREINPUT hi;
+        //}
+
+        //[StructLayout(LayoutKind.Sequential)]
+        //public struct INPUT
+        //{
+        //    internal uint type;
+        //    internal InputUnion U;
+        //    internal static int Size
+        //    {
+        //        get { return Marshal.SizeOf(typeof(INPUT)); }
+        //    }
+        //}
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetCaretPos([In] ref POINT lpPoint);
@@ -63,6 +95,12 @@ namespace DiacriticHolder.Types
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool UnhookWindowsHookEx(IntPtr hhk);
+        
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetFocus();
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr SetFocus(IntPtr hWnd);
 
         //[DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         //public static extern IntPtr GetModuleHandle(string lpModuleName);

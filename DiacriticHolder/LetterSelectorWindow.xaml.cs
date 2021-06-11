@@ -11,12 +11,11 @@ namespace DiacriticHolder
     {
         private Action _closeWindow;
 
-        void LetterButton_onClick(object sender, RoutedEventArgs e)
+        void LetterButton_onClick(object sender, ItemClickEventArgs e)
         {
             _closeWindow.Invoke();
 
-            Button button = (Button)sender;
-            char value = char.Parse((string)button.Content);
+            char value = char.Parse((string)e.ClickedItem);
 
             INPUT[] pInputs = new[]
             {
@@ -58,16 +57,8 @@ namespace DiacriticHolder
 
             InitializeComponent();
 
-            foreach(string letter in Diacritics.List[key])
-            {
-                Button letterButton = new()
-                {
-                    Content = letter
-                };
-                letterButton.Click += LetterButton_onClick;
-
-                LetterPanel.Children.Add(letterButton);
-            }
+            LetterView.ItemsSource = Diacritics.List[key];
         }
+
     }
 }

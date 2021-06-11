@@ -1,4 +1,4 @@
-﻿namespace DiacriticHolder
+﻿namespace DiacriticHolder.Types
 {
     public enum Key
     {

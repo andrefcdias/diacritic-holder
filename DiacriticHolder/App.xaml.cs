@@ -1,5 +1,6 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
+﻿using DiacriticHolder.Properties;
+using DiacriticHolder.Types;
+using Microsoft.UI.Xaml;
 using PInvoke;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,9 @@ namespace DiacriticHolder
     public partial class App : Application
     {
         private Dictionary<Key, int> keyCounter = new();
-        private Window popup;
+        private LetterSelectorWindow popup;
 
-        private bool GetCaretPosition(ref POINT point)
+        private static bool GetCaretPosition(ref POINT point)
         {
             GUITHREADINFO guiInfo = new();
             guiInfo.cbSize = Marshal.SizeOf(guiInfo);
@@ -30,6 +31,16 @@ namespace DiacriticHolder
             return point.x != 0 && point.y != 0;
         }
 
+        private int CalculateHeight(Key key)
+        {
+            int itemCount = Diacritics.List[key].Length;
+            int itemsPerRow = int.Parse(Properties.Resources.ItemsPerRow);
+            int rowCount = (itemCount + itemsPerRow - 1) / itemsPerRow;
+            int height = (rowCount * 46) + 42;
+
+            return height;
+        }
+
         private void OpenPopup(Key key)
         {
             POINT popupPosition = new();
@@ -38,11 +49,12 @@ namespace DiacriticHolder
                 GetCursorPos(out popupPosition);
             }
 
-            popup = new LetterSelectorWindow(key, () => ClosePopup());
+            popup = new LetterSelectorWindow(key, ClosePopup);
             popup.Activate();
 
             IntPtr popupHandler = GetActiveWindow();
-            SetWindowPos(popupHandler, SpecialWindowHandles.HWND_TOPMOST, popupPosition.x, popupPosition.y, 300, 200, 0);
+            int height = CalculateHeight(key);
+            SetWindowPos(popupHandler, SpecialWindowHandles.HWND_TOPMOST, popupPosition.x, popupPosition.y, 260, height, 0);
         }
 
         private void ClosePopup()
@@ -50,7 +62,6 @@ namespace DiacriticHolder
             popup.Close();
             popup = null;
         }
-
 
         public App()
         {
@@ -60,7 +71,8 @@ namespace DiacriticHolder
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            var kr = new KeyListener();
+            KeyListener kr = new();
+
             //using (var kr = new KeyListener())
             //{
             kr.RegisterHook((key) =>
@@ -72,15 +84,7 @@ namespace DiacriticHolder
                 {
                     OpenPopup(key);
                 }
-            }, (key) =>
-            {
-                keyCounter[key] = 0;
-
-                if (popup != null)
-                {
-                    ClosePopup();
-                }
-            });
+            }, (key) => keyCounter[key] = 0);
             //}
         }
     }

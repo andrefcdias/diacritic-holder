@@ -6,5 +6,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <StackPanel x:Name="LetterPanel" Orientation="Horizontal" VerticalAlignment="Top" />
+    <GridView x:Name="LetterView" IsItemClickEnabled="True" ItemClick="LetterButton_onClick">
+        <GridView.ItemTemplate>
+            <DataTemplate x:Name="LetterTemplate" x:DataType="x:String">
+                <StackPanel>
+                    <TextBlock Text="{Binding}" />
+                </StackPanel>
+            </DataTemplate>
+        </GridView.ItemTemplate>
+        <GridView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <ItemsWrapGrid MaximumRowsOrColumns="5" Orientation="Horizontal" HorizontalAlignment="Left" />
+            </ItemsPanelTemplate>
+        </GridView.ItemsPanel>
+    </GridView>
 </Window>

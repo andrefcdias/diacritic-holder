@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.31320.298
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "DiacriticHolder (Package)", "DiacriticHolder (Package)\DiacriticHolder (Package).wapproj", "{B4560E9D-1A38-47B9-BAD1-BF0D043F0395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiacriticHolder", "DiacriticHolder\DiacriticHolder.csproj", "{8FAD4830-7BA5-46F8-9CD2-A828D7FD47D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiacriticHolder", "DiacriticHolder\DiacriticHolder.csproj", "{8FAD4830-7BA5-46F8-9CD2-A828D7FD47D0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A7DB1392-7981-4C49-A1DB-EB9BB7E2DF9D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
